@@ -49,6 +49,7 @@ class QnxPlugin : public ExtensionSystem::IPlugin
 
 public:
     QnxPlugin();
+    ~QnxPlugin();
 
     bool initialize(const QStringList &arguments, QString *errorString);
     void extensionsInitialized();
@@ -56,6 +57,16 @@ public:
 
 private slots:
     void updateDebuggerActions();
+#ifdef WITH_TESTS
+    void testBarDescriptorDocumentSetValue_data();
+    void testBarDescriptorDocumentSetValue();
+
+    void testBarDescriptorDocumentSetBannerComment_data();
+    void testBarDescriptorDocumentSetBannerComment();
+
+    void testConfigurationManager_data();
+    void testConfigurationManager();
+#endif
 
 private:
     QAction *m_debugSeparator;

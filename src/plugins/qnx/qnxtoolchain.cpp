@@ -34,6 +34,9 @@
 #include "qnxconstants.h"
 #include "qnxutils.h"
 
+#include "blackberryconfigurationmanager.h"
+#include "blackberryapilevelconfiguration.h"
+
 #include <utils/pathchooser.h>
 
 #include <QFormLayout>
@@ -85,6 +88,14 @@ ToolChainConfigWidget *QnxToolChain::configurationWidget()
 
 void QnxToolChain::addToEnvironment(Utils::Environment &env) const
 {
+    foreach (BlackBerryApiLevelConfiguration *config,
+             BlackBerryConfigurationManager::instance()->apiLevels()) {
+        if (config->qccCompilerPath() == compilerCommand()) {
+            setQnxEnvironment(env, config->qnxEnv());
+            break;
+        }
+    }
+
     if (env.value(QLatin1String("QNX_HOST")).isEmpty()
             || env.value(QLatin1String("QNX_TARGET")).isEmpty())
         setQnxEnvironment(env, QnxUtils::qnxEnvironment(m_ndkPath));
@@ -98,6 +109,9 @@ QList<Utils::FileName> QnxToolChain::suggestedMkspecList() const
     mkspecList << Utils::FileName::fromLatin1("qnx-armv7le-qcc");
     mkspecList << Utils::FileName::fromLatin1("qnx-armle-v7-qcc");
     mkspecList << Utils::FileName::fromLatin1("qnx-x86-qcc");
+    mkspecList << Utils::FileName::fromLatin1("blackberry-armv7le-qcc");
+    mkspecList << Utils::FileName::fromLatin1("blackberry-armle-v7-qcc");
+    mkspecList << Utils::FileName::fromLatin1("blackberry-x86-qcc");
 
     return mkspecList;
 }

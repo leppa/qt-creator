@@ -45,7 +45,7 @@
 namespace Qnx {
 namespace Internal {
 
-class QnxQtVersion;
+class QnxAbstractQtVersion;
 
 class ConfigInstallInformation
 {
@@ -66,7 +66,7 @@ class QnxUtils
 public:
     static QString addQuotes(const QString &string);
     static Qnx::QnxArchitecture cpudirToArch(const QString &cpuDir);
-    static QStringList searchPaths(Qnx::Internal::QnxQtVersion *qtVersion);
+    static QStringList searchPaths(QnxAbstractQtVersion *qtVersion);
     static QList<Utils::EnvironmentItem> qnxEnvironmentFromEnvFile(const QString &fileName);
     static bool isValidNdkPath(const QString & ndkPath);
     static QString envFilePath(const QString & ndkPath, const QString& targetVersion = QString());
