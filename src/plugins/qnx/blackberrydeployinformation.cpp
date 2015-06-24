@@ -318,5 +318,9 @@ BarPackageDeployInformation BlackBerryDeployInformation::deployInformationFromNo
 
     const Utils::FileName buildDir = m_target->activeBuildConfiguration()->buildDirectory();
 
-    return BarPackageDeployInformation(true, node->path(), node->path(), buildDir, ti.target);
+    return BarPackageDeployInformation(true,
+                                       node->path(),
+                                       Utils::FileName::fromString(node->sourceDir()),
+                                       buildDir,
+                                       ti.target);
 }
