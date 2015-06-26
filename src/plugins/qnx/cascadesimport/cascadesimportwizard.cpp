@@ -63,8 +63,9 @@ namespace Internal {
 //
 //////////////////////////////////////////////////////////////////////////////
 
-CascadesImportWizardDialog::CascadesImportWizardDialog(QWidget *parent) :
-    Core::BaseFileWizard(parent)
+CascadesImportWizardDialog::CascadesImportWizardDialog(const Core::BaseFileWizardFactory *factory,
+                                                       QWidget *parent) :
+    Core::BaseFileWizard(factory, QVariantMap(), parent)
 {
     setWindowTitle(tr("Import Existing Momentics Cascades Project"));
 
@@ -114,7 +115,7 @@ CascadesImportWizard::CascadesImportWizard()
     setWizardKind(ProjectWizard);
     setIcon(QPixmap(QLatin1String(Qnx::Constants::QNX_BB_CATEGORY_ICON)));
     setDisplayName(tr("Momentics Cascades Project"));
-    setId(QLatin1String("Q.QnxBlackBerryCascadesApp"));
+    setId(Core::Id::fromString(QLatin1String("Q.QnxBlackBerryCascadesApp")));
     setRequiredFeatures(Core::FeatureSet(Constants::QNX_BB_FEATURE));
     setDescription(tr("Imports existing Cascades projects created within QNX Momentics IDE. "
                       "This allows you to use the project in Qt Creator."));
@@ -125,9 +126,11 @@ CascadesImportWizard::CascadesImportWizard()
 Core::BaseFileWizard *CascadesImportWizard::create(QWidget *parent,
                                       const Core::WizardDialogParameters &parameters) const
 {
-    CascadesImportWizardDialog *wizard = new CascadesImportWizardDialog(parent);
+    Q_UNUSED(parameters);
 
-    foreach (QWizardPage *p, parameters.extensionPages())
+    CascadesImportWizardDialog *wizard = new CascadesImportWizardDialog(this, parent);
+
+    foreach (QWizardPage *p, wizard->extensionPages())
         wizard->addPage(p);
 
     return wizard;

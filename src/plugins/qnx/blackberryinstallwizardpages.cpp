@@ -72,18 +72,15 @@ NdkPathChooser::NdkPathChooser(Mode mode, QWidget *parent)
         setPromptDialogFilter(Utils::HostOsInfo::isWindowsHost() ? QLatin1String("*.bat") :
                                                                    QLatin1String("*.sh"));
     }
-    setAdditionalPathValidator([this](const QString &path, QString *errorMessage) {
-        return validateNdkPath(path, errorMessage);
-    });
 }
 
-bool NdkPathChooser::validateNdkPath(const QString &path, QString *errorMessage) const
+bool NdkPathChooser::validateNdkPath(QString *errorMessage) const
 {
     Q_UNUSED(errorMessage);
     if (m_mode == InstallMode)
-        return !(QnxUtils::sdkInstallerPath(path).isEmpty());
+        return !(QnxUtils::sdkInstallerPath(path()).isEmpty());
 
-    QFileInfo fi(path);
+    QFileInfo fi(fileName().toString());
     if (Utils::HostOsInfo::isWindowsHost())
         return fi.suffix() == QLatin1String("bat");
 
@@ -101,6 +98,11 @@ BlackBerryInstallWizardOptionPage::BlackBerryInstallWizardOptionPage(BlackBerryI
     , m_data(data)
 {
     m_ui->setupUi(this);
+    m_envFileChooser->setValidationFunction([this](Utils::FancyLineEdit *edit,
+                                                               QString *errorMessage) {
+        return m_envFileChooser->defaultValidationFunction()(edit, errorMessage)
+                && m_envFileChooser->validateNdkPath(errorMessage);
+    });
     setTitle(tr("Options"));
     connect(m_ui->addButton, SIGNAL(toggled(bool)), this, SLOT(handleApiLevelOptionChanged()));
     connect(m_envFileChooser, SIGNAL(pathChanged(QString)), this, SLOT(handlePathChanged(QString)));

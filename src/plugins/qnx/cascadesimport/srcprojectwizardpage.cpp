@@ -39,11 +39,11 @@
 namespace Qnx {
 namespace Internal {
 
-static bool validateProjectPath(const QString &path, QString *errorMessage)
+static bool validateProjectPath(Utils::FancyLineEdit *edit, QString *errorMessage)
 {
     bool proFound = false;
     bool barDescriptorFound = false;
-    QDirIterator di(path);
+    QDirIterator di(edit->text());
     while (di.hasNext()) {
         di.next();
         QFileInfo fi = di.fileInfo();
@@ -72,7 +72,7 @@ SrcProjectWizardPage::SrcProjectWizardPage(QWidget *parent)
     ui->setupUi(this);
     ui->pathChooser->setPromptDialogTitle(tr("Choose imported Cascades project directory"));
     ui->pathChooser->setExpectedKind(Utils::PathChooser::ExistingDirectory);
-    ui->pathChooser->setAdditionalPathValidator(validateProjectPath);
+    ui->pathChooser->setValidationFunction(validateProjectPath);
 
     connect(ui->pathChooser, SIGNAL(pathChanged(QString)), this, SLOT(onPathChooserPathChanged(QString)));
 

@@ -99,8 +99,6 @@ static void createAnalyzerStartParameters(AnalyzerStartParameters *pStartParamet
 {
     QTC_ASSERT(pStartParameters, return);
     pStartParameters->runMode = mode;
-    if (mode == QmlProfilerRunMode)
-        pStartParameters->startMode = StartLocal;
 
     Target *target = runConfiguration->target();
     Kit *kit = target->kit();
@@ -210,7 +208,7 @@ RunControl *BlackBerryRunControlFactory::create(RunConfiguration *runConfigurati
         return runControl;
     }
 
-    DebuggerRunControl *runControl = DebuggerRunControlFactory::doCreate(startParameters(rc), errorMessage);
+    DebuggerRunControl *runControl = createDebuggerRunControl(startParameters(rc), errorMessage);
     if (!runControl)
         return 0;
 

@@ -48,7 +48,7 @@ class CascadesImportWizardDialog : public Core::BaseFileWizard
 {
     Q_OBJECT
 public:
-    CascadesImportWizardDialog(QWidget *parent = 0);
+    CascadesImportWizardDialog(const Core::BaseFileWizardFactory *factory, QWidget *parent = 0);
 
     QString srcProjectPath() const;
     QString destProjectPath() const;
