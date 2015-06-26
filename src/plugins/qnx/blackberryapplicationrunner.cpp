@@ -308,6 +308,7 @@ void BlackBerryApplicationRunner::checkQmlJsDebugArguments()
     if (!m_launchFlags.testFlag(QmlDebugLaunch)) {
         // no need to change anytning in app manifest for this kind of run
         launchApplication();
+        return;
     }
 
     emit output(tr("Checking qmljsdebugger command line argument."), Utils::StdOutFormat);

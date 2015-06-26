@@ -192,9 +192,7 @@ QString QnxUtils::bbDataDirPath()
     if (Utils::HostOsInfo::isWindowsHost()) {
         // Get the proper storage location on Windows using QDesktopServices,
         // to not hardcode "AppData/Local", as it might refer to "AppData/Roaming".
-        QString dataDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
-                + QLatin1String("/data");
-        dataDir = dataDir.left(dataDir.indexOf(QCoreApplication::organizationName()));
+        QString dataDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
         dataDir.append(QLatin1String("/Research in Motion"));
         return dataDir;
     }

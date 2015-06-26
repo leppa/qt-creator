@@ -86,7 +86,7 @@ bool Slog2InfoRunner::commandFound() const
 
 void Slog2InfoRunner::handleTestProcessCompleted()
 {
-    m_found = (m_testProcess->exitCode() == 0);
+    m_found = (m_testProcess->exitStatus() == QProcess::NormalExit);
     if (m_found)
         readLaunchTime();
     else
